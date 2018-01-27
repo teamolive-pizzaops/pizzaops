@@ -8,6 +8,11 @@ public class AbstractVO {
 	private String orderBy;
 	private String orderId;
 	
+	private String firstCreateDatetime;
+	private int firstCreateUserId;
+	private String lastModDatetime;
+	private int lastModUserId;
+	
 	private int total;
 	
 	public int getTotal() {
@@ -40,4 +45,29 @@ public class AbstractVO {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+	public String getFirstCreateDatetime() {
+		return firstCreateDatetime;
+	}
+	public void setFirstCreateDatetime(String firstCreateDatetime) {
+		this.firstCreateDatetime = firstCreateDatetime;
+	}
+	public int getFirstCreateUserId() {
+		return firstCreateUserId;
+	}
+	public void setFirstCreateUserId(int firstCreateUserId) {
+		this.firstCreateUserId = firstCreateUserId;
+	}
+	public String getLastModDatetime() {
+		return lastModDatetime;
+	}
+	public void setLastModDatetime(String lastModDatetime) {
+		this.lastModDatetime = lastModDatetime;
+	}
+	public int getLastModUserId() {
+		return lastModUserId;
+	}
+	public void setLastModUserId(int lastModUserId) {
+		this.lastModUserId = lastModUserId;
+	}
+	
 }

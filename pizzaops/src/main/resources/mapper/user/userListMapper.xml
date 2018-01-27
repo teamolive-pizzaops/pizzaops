@@ -15,10 +15,8 @@
 		       EMAIL_ADDR,
 		       PASSWORD,
 		       USER_TYPE_CD,
-		       CREAT_DT,
-		       LAST_MOD_DT,
 		       USER_STAT_CD,
-		       PASSWORD_ERR_CNT
+		       PASSWORD_ERR_CNT,
 		  FROM USER_BASE
 		 WHERE (USER_ID = 1)
     </select>
@@ -29,8 +27,6 @@
 		       EMAIL_ADDR,
 		       USER_NAME,
 		       USER_TYPE_CD,
-		       CREAT_DT,
-		       LAST_MOD_DT,
 		       USER_STAT_CD,
 		       PASSWORD_ERR_CNT,
 		       USE_YN

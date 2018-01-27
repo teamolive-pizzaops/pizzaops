@@ -9,8 +9,6 @@ public class UserVO extends AbstractVO{
 	private String userName;
 	private String password;
 	private String userTypeCd;
-	private String creatDt;
-	private String lastModDt;
 	private String userStatCd;
 	private int passwordErrCnt;
 	private String userYn;
@@ -45,18 +43,6 @@ public class UserVO extends AbstractVO{
 	public void setUserTypeCd(String userTypeCd) {
 		this.userTypeCd = userTypeCd;
 	}
-	public String getCreatDt() {
-		return creatDt;
-	}
-	public void setCreatDt(String creatDt) {
-		this.creatDt = creatDt;
-	}
-	public String getLastModDt() {
-		return lastModDt;
-	}
-	public void setLastModDt(String lastModDt) {
-		this.lastModDt = lastModDt;
-	}
 	public String getUserStatCd() {
 		return userStatCd;
 	}
@@ -76,12 +62,4 @@ public class UserVO extends AbstractVO{
 		this.userYn = userYn;
 	}
 	
-	
-	@Override
-	public String toString() {
-		return "UserVO [userId=" + userId + ", emailAddr=" + emailAddr + ", password=" + password + ", userTypeCd="
-				+ userTypeCd + ", creatDt=" + creatDt + ", lastModDt=" + lastModDt + ", userStatCd=" + userStatCd
-				+ ", passwordErrCnt=" + passwordErrCnt + ", userYn=" + userYn + "]";
-	}
-
 }
