@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pizza.common.code.mapper.CodeListMapper">
+
+    <select id="getNow" resultType="java.lang.String">
+        SELECT NOW()
+    </select>
+    
+    <select id="selectCodeList" parameterType="com.pizza.common.code.vo.CodeVO" resultType="com.pizza.common.code.vo.CodeVO">
+        SELECT /*codeListMapper.selectCodeList*/
+        	   CLASS_CODE_NAME,
+		       DESCRIPTION,
+		       DELETE_YN,
+		       FIRST_CREATE_DATETIME,
+		       FIRST_CREATE_USER_ID,
+		       LAST_MOD_DATETIME,
+		       LAST_MOD_USER_ID
+		  FROM pizza.COM_CLASS_CODE
+    </select>
+    
+    <select id="selectCodeListCount" parameterType="com.pizza.common.code.vo.CodeVO" resultType="com.pizza.common.code.vo.CodeVO">
+        SELECT /*codeListMapper.selectCodeList*/
+        	   count(*) as total
+		  FROM pizza.COM_CLASS_CODE
+    </select>
+
+</mapper>
+
