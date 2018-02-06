@@ -32,19 +32,8 @@ public class CodeController {
     
     @RequestMapping(value = "/codeMgmt/getCodeList.do", method=RequestMethod.POST)
     private ModelAndView getUserList(@ModelAttribute CodeVO codeVO, HttpServletRequest request) throws Exception {
-    	
-		String orderCol = request.getParameter("order[0][column]");
-		String orderDir = request.getParameter("order[0][dir]");
-		String orderColNmRegacy = request.getParameter("columns["+orderCol+"][data]");
-		String orderColNm = "";
-		
-		if(orderColNmRegacy != null){
-			orderColNm =  StringUtils.camelToUnderbar(request.getParameter("columns["+orderCol+"][data]"));
-		}
 		
 		ModelAndView mv = new ModelAndView("jsonView");
-		codeVO.setOrderBy(orderDir);
-		codeVO.setOrderId(orderColNm);
 		
 		List<CodeVO> codeList = codeMgmtSvc.selectCodeList(codeVO);
 		int totalCnt = codeMgmtSvc.selectCodeListCount(codeVO);
