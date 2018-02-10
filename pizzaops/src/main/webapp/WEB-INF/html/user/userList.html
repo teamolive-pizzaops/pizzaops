@@ -99,33 +99,34 @@
 			</tr>
 			<tr>
 			  <td>UserName</td>
-			  <td id="table-username"></td>
+			  <td><input id="table-username" type="text" value=""/></td>
 			</tr>
 			<tr>
 			  <td>Email</td>
-			  <td id="table-useremail"></td>
+			  <td><input id="table-useremail" type="text" value=""/></td>
 			</tr>
 			<tr>
 			  <td>Password</td>
-			  <td id="table-userpassword"></td>
+			  <td><input id="table-userpassword" type="text" value=""/></td>
 			</tr>
 			<tr>
 			  <td>user type</td>
-			  <td id="table-usertype"></td>
+			  <td><input id="table-usertype" type="text" value=""/></td>
 			</tr>
 			<tr>
 			  <td>user status</td>
-			  <td id="table-userstatus"></td>
+			  <td><input id="table-userstatus" type="text" value=""/></td>
 			</tr>
 			<tr>
 			  <td>user err cnt</td>
-			  <td id="table-usererrcnt"></td>
+			  <td><input id="table-usererrcnt" type="text" value=""/></td>
 			</tr>
         </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="button_removeUser">Delete</button>
+        <button type="button" class="btn btn-primary" id="button_updateUser">Update</button>
       </div>
     </div>
   </div>
@@ -148,13 +149,48 @@
     <script>
 	    var userTable;
 	    
+	    $('#button_updateUser').click(function(){
+			$.ajax({
+				url: "/userMgmt/updateUser.do",
+				type: "get",
+				data: {
+					userId			: $('#table-userid').html(),
+					emailAddr		: $('#table-useremail').val(),
+					userName			: $('#table-username').val(),
+					password			: $('#table-userpassword').val(),
+					userTypeCd		: $('#table-usertype').val(),
+					userStatCd		: $('#table-userstatus').val(),
+					passwordErrCnt	: $('#table-usererrcnt').val(),
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					//toast 같은게 필요
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })	    
+	    
+	    $('#button_removeUser').click(function(){
+	    		var param_userId = $('#table-userid').html();
+	    		
+			$.ajax({
+				url: "/userMgmt/removeUser.do",
+				type: "get",
+				data: {
+					userId : param_userId
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })
+	    
 	    function accecptUser(userId){
 	    	alert(userId + "user accepted");
 	    }
 	    
 	    function viewUserDetail(userId){
-			console.log("userId", userId);
-
 			$.ajax({
 				url: "/userMgmt/selectOneUser.do",
 				type: "get",
@@ -164,12 +200,12 @@
 		        success:function(result){
 					console.log("result", result);
 					$('#table-userid').html(userId);
-					$('#table-username').html(result.data.userName);
-					$('#table-useremail').html(result.data.emailAddr);
-					$('#table-userpassword').html(result.data.password);
-					$('#table-usertype').html(result.data.userTypeCd);
-					$('#table-userstatus').html(result.data.userStatCd);
-					$('#table-usererrcnt').html(result.data.passwordErrCnt);
+					$('#table-username').val(result.data.userName);
+					$('#table-useremail').val(result.data.emailAddr);
+					$('#table-userpassword').val(result.data.password);
+					$('#table-usertype').val(result.data.userTypeCd);
+					$('#table-userstatus').val(result.data.userStatCd);
+					$('#table-usererrcnt').val(result.data.passwordErrCnt);
 		        } 
 			});
 			

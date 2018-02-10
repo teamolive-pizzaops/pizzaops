@@ -23,6 +23,32 @@
 		   AND USER_ID = #{userId}
     </select>
     
+    <select id="removeUser" resultType="com.pizza.common.user.vo.UserVO">
+        DELETE /*selectOneUser*/
+          FROM pizza.USER_BASE
+         WHERE 1=1
+		   AND USER_ID = #{userId}
+    </select>    
+    
+    
+    
+    <select id="updateUser" resultType="com.pizza.common.user.vo.UserVO">
+		UPDATE pizza.USER_BASE
+		   SET EMAIL_ADDR = #{emailAddr},
+		       USER_NAME = #{userName},
+		       PASSWORD = #{password},
+		       USER_TYPE_CD = #{userTypeCd},
+		       USER_STAT_CD = #{userStatCd},
+		       PASSWORD_ERR_CNT = #{passwordErrCnt}
+		 WHERE 1=1
+		   AND USER_ID = #{userId};    
+    </select>    
+   
+    
+    
+    
+    
+    
     
     
     <select id="selectUserList" parameterType="com.pizza.common.user.vo.UserVO" resultType="com.pizza.common.user.vo.UserVO">

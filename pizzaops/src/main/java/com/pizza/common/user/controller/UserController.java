@@ -58,7 +58,28 @@ public class UserController {
 		mv.addObject("data", userList);
 		
 		return mv;
-		
+    }
+    
+    @RequestMapping(value = "/userMgmt/removeUser.do", method=RequestMethod.GET)
+    private ModelAndView removeUser(@ModelAttribute UserVO userVO,
+    		HttpServletRequest request) throws Exception {
+    	
+    		ModelAndView mv = new ModelAndView("jsonView");
+
+    		UserVO oneUser = userMgmtSvc.removeUser(userVO.getUserId());
+    		
+    		return mv;
     }
 
+    @RequestMapping(value = "/userMgmt/updateUser.do", method=RequestMethod.GET)
+    private ModelAndView updateUser(@ModelAttribute UserVO userVO,
+    		HttpServletRequest request) throws Exception {
+    	
+    		ModelAndView mv = new ModelAndView("jsonView");
+
+    		UserVO oneUser = userMgmtSvc.updateUser(userVO);
+    		
+    		return mv;
+    }    
+    
 }

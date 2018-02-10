@@ -10,6 +10,10 @@ public interface UserListMapper {
 	 
 	 public UserVO selectOneUser(int userId) throws Exception;
 	 
+	 public UserVO removeUser(int userId) throws Exception;
+
+	 public UserVO updateUser(UserVO inVO) throws Exception;
+
 	 public List<UserVO> selectUserList(UserVO inVO) throws Exception;
 	 
 	 public UserVO selectUserListCount(UserVO inVO) throws Exception;

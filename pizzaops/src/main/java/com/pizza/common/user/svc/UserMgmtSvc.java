@@ -19,6 +19,14 @@ public class UserMgmtSvc {
 		return userListMapper.getNow();
 	}
 
+	public UserVO removeUser(int userId) throws Exception {
+		return userListMapper.removeUser(userId);
+	}
+
+	public UserVO updateUser(UserVO inVO) throws Exception {
+		return userListMapper.updateUser(inVO);
+	}
+
 	public UserVO selectOneUser(int userId) throws Exception {
 		return userListMapper.selectOneUser(userId);
 	}
