@@ -13,13 +13,17 @@
         SELECT /*selectOneUser*/
         	   USER_ID,
 		       EMAIL_ADDR,
+		       USER_NAME,
 		       PASSWORD,
 		       USER_TYPE_CD,
 		       USER_STAT_CD,
-		       PASSWORD_ERR_CNT,
-		  FROM USER_BASE
-		 WHERE (USER_ID = 1)
+		       PASSWORD_ERR_CNT
+		  FROM pizza.USER_BASE
+		 WHERE 1=1
+		   AND USER_ID = #{userId}
     </select>
+    
+    
     
     <select id="selectUserList" parameterType="com.pizza.common.user.vo.UserVO" resultType="com.pizza.common.user.vo.UserVO">
         SELECT /*userListMapper.selectUserList*/
@@ -35,22 +39,12 @@
             <if test="userStatCd != null">
        			AND USER_STAT_CD = #{userStatCd}
             </if>
-            <if test="orderId != null and orderBy != null">
-       			order by ${orderId}  
-	       		<choose>
-			        <when test="orderBy == 'asc'">
-			            asc
-			        </when>
-			        <otherwise>
-			            desc  
-			        </otherwise>
-			    </choose>
-            </if>
-	    	<if test="start != null and length != null and length != -1">
-				LIMIT #{start} , #{length}
-	    	</if>
     </select>
-        <select id="selectUserListCount" parameterType="com.pizza.common.user.vo.UserVO" resultType="com.pizza.common.user.vo.UserVO">
+
+
+
+
+    <select id="selectUserListCount" parameterType="com.pizza.common.user.vo.UserVO" resultType="com.pizza.common.user.vo.UserVO">
         SELECT /*userListMapper.selectUserList*/
         	   count(*) as total
 		  FROM pizza.USER_BASE

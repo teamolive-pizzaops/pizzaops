@@ -8,7 +8,7 @@ public interface UserListMapper {
 	
 	 public String getNow() throws Exception;
 	 
-	 public UserVO selectOneUser(UserVO inVO) throws Exception;
+	 public UserVO selectOneUser(int userId) throws Exception;
 	 
 	 public List<UserVO> selectUserList(UserVO inVO) throws Exception;
 	 

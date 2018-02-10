@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pizza.common.user.svc.UserMgmtSvc;
 import com.pizza.common.user.vo.UserVO;
-import com.pizza.common.util.StringUtils;
 
 @RestController
 public class UserController {
@@ -30,30 +30,25 @@ public class UserController {
     	return mv;
     }
 
-    @RequestMapping("/moveUserList2.do")
-    private ModelAndView moveUserList2() throws Exception {
-    	ModelAndView mv = new ModelAndView("user/userList2");
-    	return mv;
+    @RequestMapping(value = "/userMgmt/selectOneUser.do", method=RequestMethod.GET)
+    private ModelAndView selectOneUser(@ModelAttribute UserVO userVO, 
+    		HttpServletRequest request) throws Exception {
+
+    		ModelAndView mv = new ModelAndView("jsonView");
+    		
+    		UserVO oneUser = userMgmtSvc.selectOneUser(userVO.getUserId());
+    		
+    		mv.addObject("data", oneUser);
+    		
+    		return mv;
     }
+    
     
     @RequestMapping(value = "/userMgmt/getUserList.do", method=RequestMethod.POST)
     private ModelAndView getUserList(@ModelAttribute UserVO userVO, 
     		HttpServletRequest request) throws Exception {
-		/*	author		:	hyucksu.jang
-		 * 	date		:	2017.11.02
-		 * 	description	:	dataTables 플러그인 serverside processing 기능 추가에 따른 수정
-		 */
-		String orderCol = request.getParameter("order[0][column]");
-		String orderDir = request.getParameter("order[0][dir]");
-		String orderColNmRegacy = request.getParameter("columns["+orderCol+"][data]");
-		String orderColNm = "";
-		if(orderColNmRegacy != null){
-			orderColNm =  StringUtils.camelToUnderbar(request.getParameter("columns["+orderCol+"][data]"));
-		}
 		
 		ModelAndView mv = new ModelAndView("jsonView");
-		userVO.setOrderBy(orderDir);
-		userVO.setOrderId(orderColNm);
 		
 		List<UserVO> userList = userMgmtSvc.selectUserList(userVO);
 		int totalCnt = userMgmtSvc.selectUserListCount(userVO);

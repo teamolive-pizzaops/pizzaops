@@ -79,6 +79,60 @@
 					</table>
                     </div>
                     </div>
+                    
+                    
+                    
+                    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">User Information</h4>
+      </div>
+      <div class="modal-body">
+        <table>
+			<tr>
+			  <td>UserId</td>
+			  <td id="table-userid"></td>
+			</tr>
+			<tr>
+			  <td>UserName</td>
+			  <td id="table-username"></td>
+			</tr>
+			<tr>
+			  <td>Email</td>
+			  <td id="table-useremail"></td>
+			</tr>
+			<tr>
+			  <td>Password</td>
+			  <td id="table-userpassword"></td>
+			</tr>
+			<tr>
+			  <td>user type</td>
+			  <td id="table-usertype"></td>
+			</tr>
+			<tr>
+			  <td>user status</td>
+			  <td id="table-userstatus"></td>
+			</tr>
+			<tr>
+			  <td>user err cnt</td>
+			  <td id="table-usererrcnt"></td>
+			</tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>                    
+                    
+                    
+                    
                 </div>
             </div>
             </div>
@@ -99,7 +153,27 @@
 	    }
 	    
 	    function viewUserDetail(userId){
-	    	alert(userId + "user Detail");
+			console.log("userId", userId);
+
+			$.ajax({
+				url: "/userMgmt/selectOneUser.do",
+				type: "get",
+				data: {
+					userId : userId
+				},
+		        success:function(result){
+					console.log("result", result);
+					$('#table-userid').html(userId);
+					$('#table-username').html(result.data.userName);
+					$('#table-useremail').html(result.data.emailAddr);
+					$('#table-userpassword').html(result.data.password);
+					$('#table-usertype').html(result.data.userTypeCd);
+					$('#table-userstatus').html(result.data.userStatCd);
+					$('#table-usererrcnt').html(result.data.passwordErrCnt);
+		        } 
+			});
+			
+			
 	    }
 	    
 	    function setUserTable(){
@@ -136,7 +210,8 @@
 					{
 		                "targets": 5,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	//return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	return '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
 		                },
 		                className: "text-center",
 		                "orderable": false
