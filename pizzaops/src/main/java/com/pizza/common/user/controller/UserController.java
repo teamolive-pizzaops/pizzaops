@@ -82,4 +82,14 @@ public class UserController {
     		return mv;
     }    
     
+    @RequestMapping(value = "/userMgmt/insertUser.do", method=RequestMethod.GET)
+    private ModelAndView insertUser(@ModelAttribute UserVO userVO,
+    		HttpServletRequest request) throws Exception {
+    	
+    		ModelAndView mv = new ModelAndView("jsonView");
+
+    		UserVO oneUser = userMgmtSvc.insertUser(userVO);
+    		
+    		return mv;
+    }     
 }

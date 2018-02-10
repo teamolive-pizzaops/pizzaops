@@ -45,7 +45,11 @@
     </select>    
    
     
-    
+    <select id="insertUser" resultType="com.pizza.common.user.vo.UserVO">
+   INSERT INTO pizza.USER_BASE 
+    			   (EMAIL_ADDR,USER_NAME,PASSWORD,USER_TYPE_CD,USER_STAT_CD,PASSWORD_ERR_CNT,USE_YN) 
+    		VALUES (#{emailAddr},#{userName},#{password},#{userTypeCd},#{userStatCd},#{passwordErrCnt},'Y');	   
+    </select>       
     
     
     
