@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pizza.common.code.mapper.CodeMapper">
+    
+    <select id="selectListClassCode" parameterType="com.pizza.common.code.vo.ClassCodeVO" resultType="com.pizza.common.code.vo.ClassCodeVO">
+        SELECT /*CodeMapper.selectListClassCode*/
+        	   CLASS_CODE_NAME,
+		       DESCRIPTION,
+		       DELETE_YN,
+		       FIRST_CREATE_DATETIME,
+		       FIRST_CREATE_USER_ID,
+		       LAST_MOD_DATETIME,
+		       LAST_MOD_USER_ID
+		  FROM pizza.COM_CLASS_CODE
+	    WHERE DELETE_YN = 'N'
+    </select>
+    
+   <select id="selectOneClassCode" parameterType="com.pizza.common.code.vo.ClassCodeVO" resultType="com.pizza.common.code.vo.ClassCodeVO">
+        SELECT /*CodeMapper.selectCodeList*/
+        	   CLASS_CODE_NAME,
+		       DESCRIPTION,
+		       DELETE_YN,
+		       FIRST_CREATE_DATETIME,
+		       FIRST_CREATE_USER_ID,
+		       LAST_MOD_DATETIME,
+		       LAST_MOD_USER_ID
+		  FROM pizza.COM_CLASS_CODE
+	    WHERE CLASS_CODE_NAME = #{classCodeName}
+	    
+    </select>
+    
+    <select id="selectListClassCodeCount" parameterType="com.pizza.common.code.vo.ClassCodeVO" resultType="com.pizza.common.code.vo.ClassCodeVO">
+        SELECT /*CodeMapper.selectListClassCodeCount*/
+        	   count(*) as total
+		  FROM pizza.COM_CLASS_CODE
+		  WHERE DELETE_YN = 'N'
+    </select>
+    
+    <insert id="insertClassCode" parameterType="com.pizza.common.code.vo.ClassCodeVO">
+		INSERT INTO /*CodeMapper.insertClassCode*/
+			pizza.COM_CLASS_CODE(
+		   CLASS_CODE_NAME
+		  ,DESCRIPTION
+		  ,DELETE_YN
+		  ,FIRST_CREATE_DATETIME
+		  ,FIRST_CREATE_USER_ID
+		  ,LAST_MOD_DATETIME
+		  ,LAST_MOD_USER_ID
+		  ) VALUES (
+		   #{classCodeName} 
+		  ,#{description}  
+		  ,'N'
+		  ,CURRENT_TIMESTAMP 
+		  ,#{firstCreateUserId} 
+		  ,CURRENT_TIMESTAMP 
+		  ,#{firstCreateUserId}
+		)
+    </insert>
+
+</mapper>
+
