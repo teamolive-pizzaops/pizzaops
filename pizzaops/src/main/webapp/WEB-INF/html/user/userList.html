@@ -79,6 +79,62 @@
 					</table>
                     </div>
                     </div>
+                    
+<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="showCreateUserModal();">Create</button>                    
+                    
+                    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">User Information</h4>
+      </div>
+      <div class="modal-body">
+        <table>
+			<tr>
+			  <td>UserId</td>
+			  <td id="table-userid"></td>
+			</tr>
+			<tr>
+			  <td>UserName</td>
+			  <td><input id="table-username" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Email</td>
+			  <td><input id="table-useremail" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Password</td>
+			  <td><input id="table-userpassword" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user type</td>
+			  <td><input id="table-usertype" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user status</td>
+			  <td><input id="table-userstatus" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user err cnt</td>
+			  <td><input id="table-usererrcnt" type="text" value=""/></td>
+			</tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" style="display:none" class="btn btn-primary" id="button_updateUser">Update</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_removeUser">Delete</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_createUser">Create</button>
+      </div>
+    </div>
+  </div>
+</div>                    
+                    
+                    
+                    
                 </div>
             </div>
             </div>
@@ -94,12 +150,108 @@
     <script>
 	    var userTable;
 	    
+	    function showCreateUserModal() {
+	    		$('#table-userid').html("AUTO");
+			$('#table-username').val('');
+			$('#table-useremail').val('');
+			$('#table-userpassword').val('');
+			$('#table-usertype').val('');
+			$('#table-userstatus').val('');
+			$('#table-usererrcnt').val('');
+
+			$("#button_createUser").show();
+	    		$("#button_updateUser").hide();
+    			$("#button_removeUser").hide();
+	    }
+	    
+	    $('#button_createUser').click(function(){
+	    		//validation check
+	    		
+	    		//ajax
+			$.ajax({
+				url: "/userMgmt/insertUser.do",
+				type: "get",
+				data: {
+					emailAddr		: $('#table-useremail').val(),
+					userName			: $('#table-username').val(),
+					password			: $('#table-userpassword').val(),
+					userTypeCd		: $('#table-usertype').val(),
+					userStatCd		: $('#table-userstatus').val(),
+					passwordErrCnt	: $('#table-usererrcnt').val(),
+				},
+		        success:function(result){
+					console.log("success : insert", result);
+					//toast 같은게 필요ㅎㅎ 
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});	    	
+	    	
+	    })
+	    
+	    $('#button_updateUser').click(function(){
+			$.ajax({
+				url: "/userMgmt/updateUser.do",
+				type: "get",
+				data: {
+					userId			: $('#table-userid').html(),
+					emailAddr		: $('#table-useremail').val(),
+					userName			: $('#table-username').val(),
+					password			: $('#table-userpassword').val(),
+					userTypeCd		: $('#table-usertype').val(),
+					userStatCd		: $('#table-userstatus').val(),
+					passwordErrCnt	: $('#table-usererrcnt').val(),
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					//toast 같은게 필요ㅎㅎ 
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })	    
+	    
+	    $('#button_removeUser').click(function(){
+	    		var param_userId = $('#table-userid').html();
+	    		
+			$.ajax({
+				url: "/userMgmt/removeUser.do",
+				type: "get",
+				data: {
+					userId : param_userId
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })
+	    
 	    function accecptUser(userId){
 	    	alert(userId + "user accepted");
 	    }
 	    
 	    function viewUserDetail(userId){
-	    	alert(userId + "user Detail");
+			$.ajax({
+				url: "/userMgmt/selectOneUser.do",
+				type: "get",
+				data: {
+					userId : userId
+				},
+		        success:function(result){
+					console.log("result", result);
+					$('#table-userid').html(userId);
+					$('#table-username').val(result.data.userName);
+					$('#table-useremail').val(result.data.emailAddr);
+					$('#table-userpassword').val(result.data.password);
+					$('#table-usertype').val(result.data.userTypeCd);
+					$('#table-userstatus').val(result.data.userStatCd);
+					$('#table-usererrcnt').val(result.data.passwordErrCnt);
+		        } 
+			});
+			
+	    		$("#button_createUser").hide();
+	    		$("#button_updateUser").show();
+    			$("#button_removeUser").show();
+			
 	    }
 	    
 	    function setUserTable(){
@@ -136,7 +288,8 @@
 					{
 		                "targets": 5,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	//return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	return '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
 		                },
 		                className: "text-center",
 		                "orderable": false
