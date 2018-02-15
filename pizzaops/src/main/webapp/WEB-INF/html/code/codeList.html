@@ -11,9 +11,17 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    
+    <!-- datatables -->
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    
+    <!-- Toastr -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 </head>
 
@@ -63,48 +71,93 @@
                     <div class="ibox-content">
 
                     <div class="table-responsive">
-					<table id="userTable" class="table table-striped table-bordered table-hover" >
+					<table id="classCodeTable" class="table table-striped table-bordered table-hover" >
 						<thead>
 							<tr>
 								<th>Class Code name</th>
-								<th>Description</th>
-								<th>Delete yn</th>
-								<th>First Create Datetime</th>
-								<th>First Create User ID</th>
-								<th>Last Modify Datetime</th>
-								<th>Last Modify User ID</th>
+								<th width="60%">Description</th>
+								<th>Detail</th>
+								<th>Delete Code</th>
 							</tr>
 						</thead>
 						<!-- tbody 태그 필요 없다. -->
 					</table>
+					<div align="right">
+                		<button class="btn btn-success" onClick="addClassCode();">ADD CLASS CODE</button>
+                		<button type="button" class="btn btn-primary" onclick="codeDetail('ITEM_STATUS_CODE');">Launch demo modal</button>
+                		<button type="button" class="btn btn-primary" onclick="reloadTest();">test</button>
+					</div>
                     </div>
                     </div>
                 </div>
             </div>
             </div>
+         <!-- Add Class Code Popup start --> 
+         <div class="modal inmodal fade" id="addClassCodePopup" tabindex="-1" role="dialog"  aria-hidden="true">
+             <div class="modal-dialog modal-lg">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                         <h4 class="modal-title" id="popupTitle">Add NEW CLASS CODE</h4>
+                     </div>
+                     <div class="modal-body">
+                       <form class="form-horizontal">
+                           <div class="form-group"><label class="col-lg-2 control-label">Class Code Name</label>
+                               <div class="col-lg-10"><input id="addClassCodeName" type="text" placeholder="Class Code Name" class="form-control"></div>
+                           </div>
+                           <div class="form-group"><label class="col-lg-2 control-label">Description</label>
+                               <div class="col-lg-10"><textarea class="form-control" id="addDescription" rows="5" cols="10" placeholder="Input Description"></textarea></div>
+                           </div>
+                       </form>                    	
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-white" onClick="closeAddClassCodePopup();">Close</button>
+                         <button type="button" class="btn btn-primary" onclick="addNewClassCode();">Save</button>
+                     </div>
+                 </div>
+             </div>
+         </div>	            
+         <!-- Add Class Code Popup End -->
+         
+         <!-- Class Code Detail Popup Start -->
+         <div class="modal inmodal fade" id="addClassCodePopup" tabindex="-1" role="dialog"  aria-hidden="true">
+             <div class="modal-dialog modal-lg">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                         <h4 class="modal-title" id="popupTitle">Code Detail</h4>
+                     </div>
+                     <div class="modal-body">
+                     </div>
+                     <input type="text" id="test1">
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                         <button type="button" class="btn btn-primary">Save changes</button>
+                     </div>
+                 </div>
+             </div>
+         </div>	       
+         <!-- Class Code Detail Popup End -->     
 </div>
         
 
 	<!-- datatables -->
     <script src="js/plugins/dataTables/datatables.min.js"></script>
     <script src="js/plugins/peity/jquery.peity.min.js"></script>
-
+    
+    <!-- Sweet alert -->
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    
+    <!-- Toastr -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>   
 
     <!-- Page-Level Scripts -->
     <script>
-	    var userTable;
-	    
-	    function accecptUser(userId){
-	    	alert(userId + "user accepted");
-	    }
-	    
-	    function viewUserDetail(userId){
-	    	alert(userId + "user Detail");
-	    }
-	    
-	    function setUserTable(){
-	    	userTable = $('#userTable').dataTable({
-				pageLength: 3,
+	    var classCodeTable;
+
+	    function setclassCodeTable(){
+	    	classCodeTable = $('#classCodeTable').dataTable({
+				pageLength: 5,
 				pagingType : "full_numbers",
 				bPaginate: true,
 				bLengthChange: true,
@@ -113,10 +166,10 @@
 				bAutoWidth: false,
 				processing: true,
 				ordering: true,
-				serverSide: true,
-				searching: false,
+				serverSide: false,
+				searching: true,
 		        ajax : {
-		            "url": "/codeMgmt/getCodeList.do",
+		            "url": "/codeMgmt/selectListClassCode.do",
 		            "type":"POST",
 		            "data": function ( d ) {
 		               // d.repoType = $("#repoType option:selected").val(),
@@ -126,25 +179,22 @@
 				columns : [					//target
 					{data: "classCodeName"},		//0
 					{data: "description"},	//1
-					{data: "deleteYn"},		//2
-					{data: "firstCreateDatetime"},	//3
-					{data: "firstCreateUserId"},	//4
-					{data: "lastModDatetime"},		//5
-					{data: "lastModUserId"}		//6
+					{data: "classCodeName"},		//2
+					{data: "classCodeName"}		//3
 				],
 				columnDefs : [
 					{
-		                "targets": 5,
+		                "targets": 2,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	return '<button class="btn btn-info btn-xs" onClick="viewCodeDetail('+'&quot;'+data+'&quot;'+');">'+'DETAIL'+'</button>'
 		                },
 		                className: "text-center",
 		                "orderable": false
 		            },
 					{
-		                "targets": 6,
+		                "targets": 3,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-success btn-xs" onClick="accecptUser('+data+');">'+'ACCEPT'+'</button>'
+		                	return '<button class="btn btn-danger btn-xs" onClick="deleteCode('+'&quot;'+data+'&quot;'+');">'+'DELETE'+'</button>'
 		                },
 		                "className": "text-center",
 		                "orderable": false
@@ -174,8 +224,76 @@
 		
 		    });
 	    }
+	    
+	    function addNewClassCode(classCodeName){
+		    $.ajax({
+	            type : "POST",
+	            headers: {
+	                "Content-Type" : "application/json"
+	            },
+	            url : "/codeMgmt/addClassCode.do",
+	            data: JSON.stringify({
+					classCodeName : $('#addClassCodeName').val(),
+					description : $('#addDescription').val()
+	            }),
+	            error : function(e){
+	                alert(e);
+	            },
+	            success : function(data){
+	            	if(data.code == 200){
+                        closeAddClassCodePopup();
+                        classCodeTable.api().ajax.reload();
+	                    toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            timeOut: 4000
+                        };
+                        toastr.success('successfully added');
+	            	}else if(data.code == 500){
+	            		alert("Duplicate Class Code Name");
+	            	}
+	            }
+	        });
+	    }
+	    
+	    function reloadTest(){
+	    	classCodeTable.api().ajax.reload();
+	    }
+	    
+	    function closeAddClassCodePopup(){
+	    	$('#addClassCodeName').val('');
+	    	$('#addDescription').val('');
+	    	$('#addClassCodePopup').modal('toggle');
+	    }
+	    
+	    function codeDetail(classCodeName){
+	    	$('#codeDetailPopup').modal({backdrop: 'static', keyboard: false});
+	    	$('#classCodeNamePop').val(classCodeName);
+	    }
+	    
+	    function addClassCode(classCodeName){
+	    	$('#addClassCodePopup').modal({backdrop: 'static', keyboard: false});
+	    }
+	    
+	    function deleteCode(classCodeName){
+    	 	swal({
+    	        title: "Are you sure to delete " + classCodeName +"?",
+    	        text: "You will not be able to recover this Code!",
+    	        showCancelButton: true,
+    	        confirmButtonColor: "#DD6B55",
+    	        confirmButtonText: "Yes",
+    	        closeOnConfirm: false
+    	    }, function () {
+		    	alert(classCodeName + "user accepted");
+    	    });
+	    }
+	    
+	    function viewCodeDetail(classCodeName){
+	    	alert(classCodeName + "user Detail");
+	    }
+	    
 	    $(document).ready(function(){
-	    	setUserTable();
+	    	setclassCodeTable();
 	    });
     </script>
     </div>

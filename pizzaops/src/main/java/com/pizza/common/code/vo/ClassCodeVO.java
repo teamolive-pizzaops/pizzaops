@@ -2,16 +2,11 @@ package com.pizza.common.code.vo;
 
 import com.pizza.common.main.vo.AbstractVO;
 
-public class CodeVO extends AbstractVO{
+public class ClassCodeVO extends AbstractVO{
 	
 	private String classCodeName;
 	private String description;
 	private String deleteYn;
-	
-//	private String firstCreateDatetime;
-//	private int firstCreateUserId;
-//	private String lastModDatetime;
-//	private int lastModUserId;
 	
 	public String getClassCodeName() {
 		return classCodeName;
