@@ -20,7 +20,7 @@
 		 WHERE (TREE_ID = 6);
 
     </select>
-    
+     
     <select id="removeTree" resultType="com.pizza.common.tree.vo.TreeVO">
         DELETE /*selectOneTree*/
           FROM pizza.TREE
