@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="mainLayout">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tree Management</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div layout:fragment="content">
+	
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Tree Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Tree Management</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>User List</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">Config option 1</a>
+                                </li>
+                                <li><a href="#">Config option 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                    <div class="table-responsive">
+					<table id="treeTable" class="table table-striped table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th>Tree Id</th>
+								<th>User Id</th>
+								<th>Tree Name</th>
+								<th>Description</th>
+								<th>Item Status Code</th>
+							</tr>
+						</thead>
+						<!-- tbody 태그 필요 없다. -->
+					</table>
+                    </div>
+                    </div>
+                    
+<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="showCreateUserModal();">Create</button>                    
+                    
+                    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">User Information</h4>
+      </div>
+      <div class="modal-body">
+        <table>
+			<tr>
+			  <td>UserId</td>
+			  <td id="table-userid"></td>
+			</tr>
+			<tr>
+			  <td>UserName</td>
+			  <td><input id="table-username" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Email</td>
+			  <td><input id="table-useremail" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Password</td>
+			  <td><input id="table-userpassword" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user type</td>
+			  <td><input id="table-usertype" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user status</td>
+			  <td><input id="table-userstatus" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>user err cnt</td>
+			  <td><input id="table-usererrcnt" type="text" value=""/></td>
+			</tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" style="display:none" class="btn btn-primary" id="button_updateUser">Update</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_removeUser">Delete</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_createUser">Create</button>
+      </div>
+    </div>
+  </div>
+</div>                    
+                    
+                    
+                    
+                </div>
+            </div>
+            </div>
+</div>
+        
+
+	<!-- datatables -->
+    <script src="js/plugins/dataTables/datatables.min.js"></script>
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+
+    <!-- Page-Level Scripts -->
+    <script>
+	    var userTable;
+	    
+	    function showCreateUserModal() {
+	    		$('#table-userid').html("AUTO");
+			$('#table-username').val('');
+			$('#table-useremail').val('');
+			$('#table-userpassword').val('');
+			$('#table-usertype').val('');
+			$('#table-userstatus').val('');
+			$('#table-usererrcnt').val('');
+
+			$("#button_createUser").show();
+	    		$("#button_updateUser").hide();
+    			$("#button_removeUser").hide();
+	    }
+	    
+	    $('#button_createUser').click(function(){
+	    		//validation check
+	    		
+	    		//ajax
+			$.ajax({
+				url: "/userMgmt/insertUser.do",
+				type: "get",
+				data: {
+					emailAddr		: $('#table-useremail').val(),
+					userName			: $('#table-username').val(),
+					password			: $('#table-userpassword').val(),
+					userTypeCd		: $('#table-usertype').val(),
+					userStatCd		: $('#table-userstatus').val(),
+					passwordErrCnt	: $('#table-usererrcnt').val(),
+				},
+		        success:function(result){
+					console.log("success : insert", result);
+					//toast 같은게 필요ㅎㅎ 
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});	    	
+	    	
+	    })
+	    
+	    $('#button_updateUser').click(function(){
+			$.ajax({
+				url: "/userMgmt/updateUser.do",
+				type: "get",
+				data: {
+					userId			: $('#table-userid').html(),
+					emailAddr		: $('#table-useremail').val(),
+					userName			: $('#table-username').val(),
+					password			: $('#table-userpassword').val(),
+					userTypeCd		: $('#table-usertype').val(),
+					userStatCd		: $('#table-userstatus').val(),
+					passwordErrCnt	: $('#table-usererrcnt').val(),
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					//toast 같은게 필요ㅎㅎ 
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })	    
+	    
+	    $('#button_removeUser').click(function(){
+	    		var param_userId = $('#table-userid').html();
+	    		
+			$.ajax({
+				url: "/userMgmt/removeUser.do",
+				type: "get",
+				data: {
+					userId : param_userId
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					$('#userTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })
+	    
+	    function accecptUser(userId){
+	    	alert(userId + "user accepted");
+	    }
+	    
+	    function viewUserDetail(userId){
+			$.ajax({
+				url: "/userMgmt/selectOneUser.do",
+				type: "get",
+				data: {
+					userId : userId
+				},
+		        success:function(result){
+					console.log("result", result);
+					$('#table-userid').html(userId);
+					$('#table-username').val(result.data.userName);
+					$('#table-useremail').val(result.data.emailAddr);
+					$('#table-userpassword').val(result.data.password);
+					$('#table-usertype').val(result.data.userTypeCd);
+					$('#table-userstatus').val(result.data.userStatCd);
+					$('#table-usererrcnt').val(result.data.passwordErrCnt);
+		        } 
+			});
+			
+	    		$("#button_createUser").hide();
+	    		$("#button_updateUser").show();
+    			$("#button_removeUser").show();
+			
+	    }
+	    
+	    function setTreeTable(){
+	    	treeTable = $('#treeTable').dataTable({
+				pageLength: 1,
+				pagingType : "full_numbers",
+				bPaginate: true,
+				bLengthChange: true,
+				lengthMenu : [ [ 1, 3, 5, 10, -1 ], [ 1, 3, 5, 10, "All" ] ],
+				responsive: true,
+				bAutoWidth: false,
+				processing: true,
+				ordering: true,
+				serverSide: true,
+				searching: false,
+		        ajax : {
+		            "url": "/treeMgmt/getTreeList.do",
+		            "type":"POST",
+		            "data": function ( d ) {
+		               // d.repoType = $("#repoType option:selected").val(),
+		               // d.repoName = $("#repoName").val(),
+		            }
+		         },
+				columns : [					//target
+					{data: "treeId"},		//0
+					{data: "userId"},	//1
+					{data: "treeName"},		//2
+					{data: "description"},	//3
+					{data: "itemStatusCode"}	//4
+				],
+				columnDefs : [
+					{
+		                "targets": 5,
+		                "render": function(data,type,row){
+		                	//return '<button class="btn btn-info btn-xs" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                	return '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="viewUserDetail('+data+');">'+'DETAIL'+'</button>'
+		                },
+		                className: "text-center",
+		                "orderable": false
+		            },
+					{
+		                "targets": 6,
+		                "render": function(data,type,row){
+		                	return '<button class="btn btn-success btn-xs" onClick="accecptUser('+data+');">'+'ACCEPT'+'</button>'
+		                },
+		                "className": "text-center",
+		                "orderable": false
+		            },
+		            {
+		                "targets": [0],
+		                "visible": true
+		            }
+		        ],
+		        dom: '<"html5buttons"B>lTfgtip',
+		        buttons: [
+	 	            {extend: 'copy'},
+		            {extend: 'csv'},
+		            {extend: 'excel', title: 'ExampleFile'},
+		            {extend: 'pdf', title: 'ExampleFile'},
+		            {extend: 'print',
+		             customize: function (win){
+		                    $(win.document.body).addClass('white-bg');
+		                    $(win.document.body).css('font-size', '10px');
+		
+		                    $(win.document.body).find('table')
+		                            .addClass('compact')
+		                            .css('font-size', 'inherit');
+		            }
+		            } 
+		        ]
+		
+		    });
+	    }
+	    $(document).ready(function(){
+	    	setTreeTable();
+	    });
+    </script>
+    </div>
+
+</body>
+
+</html>
