@@ -40,15 +40,40 @@
 		       USER_TYPE_CD = #{userTypeCd},
 		       USER_STAT_CD = #{userStatCd},
 		       PASSWORD_ERR_CNT = #{passwordErrCnt}
+		       LAST_MOD_DATETIME = now(),
+		       LAST_MOD_USER_ID = #{userId}
 		 WHERE 1=1
 		   AND USER_ID = #{userId};    
     </select>    
    
     
     <select id="insertUser" resultType="com.pizza.common.user.vo.UserVO">
-   INSERT INTO pizza.USER_BASE 
-    			   (EMAIL_ADDR,USER_NAME,PASSWORD,USER_TYPE_CD,USER_STAT_CD,PASSWORD_ERR_CNT,USE_YN) 
-    		VALUES (#{emailAddr},#{userName},#{password},#{userTypeCd},#{userStatCd},#{passwordErrCnt},'Y');	   
+    INSERT INTO pizza.USER_BASE (
+				  EMAIL_ADDR,
+				  USER_NAME,
+				  PASSWORD,
+				  USER_TYPE_CD,
+				  USER_STAT_CD,
+				  PASSWORD_ERR_CNT,
+				  USE_YN,
+				  FIRST_CREATE_DATETIME,
+				  FIRST_CREATE_USER_ID,
+		         LAST_MOD_DATETIME,
+		         LAST_MOD_USER_ID
+				  ) 
+    	 VALUES (
+			 	  #{emailAddr},
+				  #{userName},
+				  #{password},
+				  #{userTypeCd},
+				  #{userStatCd},
+				  #{passwordErrCnt},
+				  'Y',
+				  now(),
+				  #{userId},
+				  now(),
+				  #{userId}
+				 );	   
     </select>       
     
     

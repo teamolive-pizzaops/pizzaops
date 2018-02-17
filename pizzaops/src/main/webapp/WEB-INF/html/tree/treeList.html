@@ -162,10 +162,10 @@
 				url: "/treeMgmt/insertTree.do",
 				type: "get",
 				data: {
-					userid			: $('#table-userid').val(),
-					treeid			: $('#table-treeid').val(),
+					userId				: $('#table-userid').val(),
+					treeName			: $('#table-treename').val(),
 					description		: $('#table-description').val(),
-					itemstatuscode	: $('#table-itemstatuscode').val()
+					itemStatusCode	: $('#table-itemstatuscode').val()
 				},
 		        success:function(result){
 					console.log("success : insert", result);

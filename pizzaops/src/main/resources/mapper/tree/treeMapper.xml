@@ -33,16 +33,35 @@
 		   SET USER_ID = #{userId},
 		       TREE_NAME = #{treeName},
 		       DESCRIPTION = #{description},
-		       ITEM_STATUS_CODE = #{itemStatusCode}
+		       ITEM_STATUS_CODE = #{itemStatusCode},
+		       LAST_MOD_DATETIME = now(),
+		       LAST_MOD_USER_ID = #{userId}
 		 WHERE 1=1
 		   AND TREE_ID = #{treeId};    
     </select>    
    
     
     <select id="insertTree" resultType="com.pizza.common.tree.vo.TreeVO">
-  INSERT INTO pizza.TREE 
-    			(TREE_ID,USER_ID,TREE_NAME,DESCRIPTION,ITEM_STATUS_CODE) 
-   		VALUES (#{treeId},#{userId},#{treeName},#{description},#{itemStatusCode});	   
+    INSERT INTO pizza.TREE (
+				  USER_ID,
+				  TREE_NAME,
+				  DESCRIPTION,
+				  ITEM_STATUS_CODE,
+				  FIRST_CREATE_DATETIME,
+				  FIRST_CREATE_USER_ID,
+		         LAST_MOD_DATETIME,
+		         LAST_MOD_USER_ID
+				  ) 
+    	 VALUES (
+			 	  #{userId},
+				  #{treeName},
+				  #{itemStatusCode},
+				  #{description},
+				  now(),
+				  #{userId},
+				  now(),
+				  #{userId}
+				 );	   
     </select>       
     
     <select id="selectTreeList" parameterType="com.pizza.common.tree.vo.TreeVO" resultType="com.pizza.common.tree.vo.TreeVO">
