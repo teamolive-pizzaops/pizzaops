@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.pizza.common.tree.mapper.TreeListMapper">
+<mapper namespace="com.pizza.common.tree.mapper.TreeMapper">
 
     <select id="getNow" resultType="java.lang.String">
         SELECT NOW()
@@ -16,8 +16,8 @@
 		       TREE_NAME,
 		       DESCRIPTION,
 		       ITEM_STATUS_CODE
-		  FROM TREE
-		 WHERE (TREE_ID = 6);
+		  FROM pizza.TREE
+		 WHERE TREE_ID = #{treeId};
 
     </select>
      
@@ -35,7 +35,7 @@
 		       DESCRIPTION = #{description},
 		       ITEM_STATUS_CODE = #{itemStatusCode}
 		 WHERE 1=1
-		   AND USER_ID = #{treeId};    
+		   AND TREE_ID = #{treeId};    
     </select>    
    
     
@@ -57,7 +57,7 @@
     </select>
 
     <select id="selectTreeListCount" parameterType="com.pizza.common.tree.vo.TreeVO" resultType="com.pizza.common.tree.vo.TreeVO">
-        SELECT /*treeListMapper.selectTreeList*/
+        SELECT /*treeListMapper.selectTreeListCount*/
         	   count(*) as total
 		  FROM pizza.TREE
 		 WHERE 1=1
