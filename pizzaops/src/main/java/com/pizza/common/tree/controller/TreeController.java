@@ -44,9 +44,7 @@ public class TreeController {
     
     
     @RequestMapping(value = "/treeMgmt/getTreeList.do", method=RequestMethod.POST)
-    private ModelAndView getTreeList(@ModelAttribute TreeVO treeVO, 
-    		HttpServletRequest request) throws Exception {
-System.out.println("here!!!");
+    private ModelAndView getTreeList(@ModelAttribute TreeVO treeVO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mv = new ModelAndView("jsonView");
 		

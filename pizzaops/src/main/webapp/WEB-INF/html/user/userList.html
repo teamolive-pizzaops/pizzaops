@@ -202,7 +202,7 @@
 					passwordErrCnt	: $('#table-usererrcnt').val(),
 				},
 		        success:function(result){
-					console.log("success : remove", result);
+					console.log("success : update", result);
 					//toast 같은게 필요ㅎㅎ 
 					$('#userTable').DataTable().ajax.reload();
 		        } 
