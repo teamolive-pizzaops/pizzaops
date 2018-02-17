@@ -69,25 +69,22 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-
-                    <div class="table-responsive">
-					<table id="classCodeTable" class="table table-striped table-bordered table-hover" >
-						<thead>
-							<tr>
-								<th>Class Code name</th>
-								<th width="60%">Description</th>
-								<th>Detail</th>
-								<th>Delete Code</th>
-							</tr>
-						</thead>
-						<!-- tbody 태그 필요 없다. -->
-					</table>
-					<div align="right">
-                		<button class="btn btn-success" onClick="addClassCode();">ADD CLASS CODE</button>
-                		<button type="button" class="btn btn-primary" onclick="codeDetail('ITEM_STATUS_CODE');">Launch demo modal</button>
-                		<button type="button" class="btn btn-primary" onclick="reloadTest();">test</button>
-					</div>
-                    </div>
+	                    <div class="table-responsive">
+							<table id="classCodeTable" class="table table-striped table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th>Class Code name</th>
+										<th width="60%">Description</th>
+										<th>Detail</th>
+										<th>Delete Code</th>
+									</tr>
+								</thead>
+								<!-- tbody 태그 필요 없다. -->
+							</table>
+							<div align="right">
+		                		<button class="btn btn-success" onClick="addClassCode();">ADD CLASS CODE</button>
+							</div>
+	                    </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +105,7 @@
                            <div class="form-group"><label class="col-lg-2 control-label">Description</label>
                                <div class="col-lg-10"><textarea class="form-control" id="addDescription" rows="5" cols="10" placeholder="Input Description"></textarea></div>
                            </div>
-                       </form>                    	
+                       </form>
                      </div>
                      <div class="modal-footer">
                          <button type="button" class="btn btn-white" onClick="closeAddClassCodePopup();">Close</button>
@@ -120,7 +117,7 @@
          <!-- Add Class Code Popup End -->
          
          <!-- Class Code Detail Popup Start -->
-         <div class="modal inmodal fade" id="addClassCodePopup" tabindex="-1" role="dialog"  aria-hidden="true">
+         <div class="modal inmodal fade" id="classCodeDetailPopup" tabindex="-1" role="dialog"  aria-hidden="true">
              <div class="modal-dialog modal-lg">
                  <div class="modal-content">
                      <div class="modal-header">
@@ -128,11 +125,37 @@
                          <h4 class="modal-title" id="popupTitle">Code Detail</h4>
                      </div>
                      <div class="modal-body">
+                       <form class="form-horizontal">
+                           <div class="form-group"><label class="col-lg-2 control-label">Class Code Name</label>
+                               <div class="col-lg-10"><input id="detailClassCodeName" type="text" class="form-control" disabled="disabled"></div>
+                           </div>
+                           <div class="form-group"><label class="col-lg-2 control-label">Description</label>
+                               <div class="col-lg-10"><textarea class="form-control" id="detailDescription" rows="5" cols="10" placeholder="Input Description"></textarea></div>
+                           </div>
+                           <div align="right">
+		                       <button type="button" class="btn btn-primary" onClick="updateClassCode();">Save changes</button>                    
+                           </div>
+                       </form>
+                       <hr>
+	                   <div class="table-responsive" style="margin-top: 10px">
+							<table id="codeTable" class="table table-striped table-bordered table-hover" >
+								<thead>
+									<tr>
+										<th>Class Code name</th>
+										<th width="60%">Description</th>
+										<th>Detail</th>
+										<th>Delete Code</th>
+									</tr>
+								</thead>
+								<!-- tbody 태그 필요 없다. -->
+							</table>
+							<div align="right">
+							</div>
+	                    </div>
                      </div>
-                     <input type="text" id="test1">
                      <div class="modal-footer">
                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                         <button type="button" class="btn btn-primary">Save changes</button>
+                         
                      </div>
                  </div>
              </div>
@@ -154,6 +177,7 @@
     <!-- Page-Level Scripts -->
     <script>
 	    var classCodeTable;
+	    var codeTable;
 
 	    function setclassCodeTable(){
 	    	classCodeTable = $('#classCodeTable').dataTable({
@@ -186,7 +210,7 @@
 					{
 		                "targets": 2,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-info btn-xs" onClick="viewCodeDetail('+'&quot;'+data+'&quot;'+');">'+'DETAIL'+'</button>'
+		                	return '<button class="btn btn-info btn-xs" onClick="viewClassCodeDetail('+'&quot;'+data+'&quot;'+');">'+'DETAIL'+'</button>'
 		                },
 		                className: "text-center",
 		                "orderable": false
@@ -194,7 +218,7 @@
 					{
 		                "targets": 3,
 		                "render": function(data,type,row){
-		                	return '<button class="btn btn-danger btn-xs" onClick="deleteCode('+'&quot;'+data+'&quot;'+');">'+'DELETE'+'</button>'
+		                	return '<button class="btn btn-danger btn-xs" onClick="deleteClassCode('+'&quot;'+data+'&quot;'+');">'+'DELETE'+'</button>'
 		                },
 		                "className": "text-center",
 		                "orderable": false
@@ -225,7 +249,7 @@
 		    });
 	    }
 	    
-	    function addNewClassCode(classCodeName){
+	    function addNewClassCode(){
 		    $.ajax({
 	            type : "POST",
 	            headers: {
@@ -256,6 +280,42 @@
 	        });
 	    }
 	    
+	    function deleteClassCode(classCodeName){
+    	 	swal({
+    	        title: "Are you sure to delete " + classCodeName +"?",
+    	        text: "You will not be able to recover this Code!",
+    	        showCancelButton: true,
+    	        confirmButtonColor: "#DD6B55",
+    	        confirmButtonText: "Yes",
+    	        closeOnConfirm: true
+    	    }, function () {
+			    $.ajax({
+		            type : "POST",
+		            headers: {
+		                "Content-Type" : "application/json"
+		            },
+		            url : "/codeMgmt/deleteClassCode.do",
+		            data: JSON.stringify({
+						classCodeName : classCodeName
+		            }),
+		            error : function(e){
+		                alert(e);
+		            },
+		            success : function(data){
+		            	if(data.code == 200){
+	                        classCodeTable.api().ajax.reload();
+		                    toastr.options = {
+	                            closeButton: true,
+	                            progressBar: true,
+	                            timeOut: 4000
+	                        };
+	                        toastr.success('successfully deleted');
+		            	}
+		            }
+		        });	    	
+    	    });
+	    }
+	    
 	    function reloadTest(){
 	    	classCodeTable.api().ajax.reload();
 	    }
@@ -275,21 +335,110 @@
 	    	$('#addClassCodePopup').modal({backdrop: 'static', keyboard: false});
 	    }
 	    
-	    function deleteCode(classCodeName){
-    	 	swal({
-    	        title: "Are you sure to delete " + classCodeName +"?",
-    	        text: "You will not be able to recover this Code!",
-    	        showCancelButton: true,
-    	        confirmButtonColor: "#DD6B55",
-    	        confirmButtonText: "Yes",
-    	        closeOnConfirm: false
-    	    }, function () {
-		    	alert(classCodeName + "user accepted");
-    	    });
+	    function viewClassCodeDetail(classCodeName){
+	    	$('#classCodeDetailPopup').modal({backdrop: 'static', keyboard: false});
+		    $.ajax({
+	            type : "POST",
+	            headers: {
+	                "Content-Type" : "application/json"
+	            },
+	            url : "/codeMgmt/selectOneClassCode.do",
+	            data: JSON.stringify({
+					classCodeName : classCodeName
+	            }),
+	            error : function(e){
+	                alert(e);
+	            },
+	            success : function(data){
+	            	$('#detailClassCodeName').val(data.classCodeInfo.classCodeName);
+	            	$('#detailDescription').val(data.classCodeInfo.description);
+	            }
+	        });
 	    }
 	    
-	    function viewCodeDetail(classCodeName){
-	    	alert(classCodeName + "user Detail");
+	    function updateClassCode(){
+		    $.ajax({
+	            type : "POST",
+	            headers: {
+	                "Content-Type" : "application/json"
+	            },
+	            url : "/codeMgmt/updateClassCode.do",
+	            data: JSON.stringify({
+					classCodeName : $('#detailClassCodeName').val(),
+					description : $('#detailDescription').val()
+	            }),
+	            error : function(e){
+	                alert(e);
+	            },
+	            success : function(data){
+	            	if(data.code == 200){
+                        classCodeTable.api().ajax.reload();
+	                    toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            timeOut: 4000
+                        };
+                        toastr.success('successfully updated');
+	            	}
+	            }
+	        });
+	    	
+	    }
+	    
+	    function setCodeTable(){
+	    	codeTable = $('#codeTable').dataTable({
+				pageLength: 5,
+				pagingType : "full_numbers",
+				bPaginate: true,
+				bLengthChange: false,
+				responsive: true,
+				bAutoWidth: false,
+				processing: true,
+				ordering: true,
+				serverSide: false,
+				searching: false,
+		        ajax : {
+		            "url": "/codeMgmt/selectListCode.do",
+		            "type":"POST",
+		            "data": function ( d ) {
+		               // d.repoType = $("#repoType option:selected").val(),
+		               // d.repoName = $("#repoName").val(),
+		               d.classCodeName = $("#detailClassCodeName").val()
+		            }
+		         },
+				columns : [					//target
+					{data: "classCodeName"},		//0
+					{data: "description"},	//1
+					{data: "classCodeName"},		//2
+					{data: "classCodeName"}		//3
+				],
+				columnDefs : [
+					{
+		                "targets": 2,
+		                "render": function(data,type,row){
+		                	return '<button class="btn btn-info btn-xs" onClick="viewClassCodeDetail('+'&quot;'+data+'&quot;'+');">'+'DETAIL'+'</button>'
+		                },
+		                className: "text-center",
+		                "orderable": false
+		            },
+					{
+		                "targets": 3,
+		                "render": function(data,type,row){
+		                	return '<button class="btn btn-danger btn-xs" onClick="deleteClassCode('+'&quot;'+data+'&quot;'+');">'+'DELETE'+'</button>'
+		                },
+		                "className": "text-center",
+		                "orderable": false
+		            },
+		            {
+		                "targets": [0],
+		                "visible": true
+		            }
+		        ]
+		
+		    });
+	    }
+	    
+	    function deleteCode(classCodeName){
 	    }
 	    
 	    $(document).ready(function(){

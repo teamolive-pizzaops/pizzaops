@@ -11,7 +11,11 @@ public interface CodeMapper {
 	 public ClassCodeVO selectListClassCodeCount(ClassCodeVO inVO) throws Exception;
 	 
 	 public ClassCodeVO selectOneClassCode(ClassCodeVO inVO) throws Exception;
-	 
+ 
 	 public void insertClassCode(ClassCodeVO inVO) throws Exception;
+
+	 public void deleteClassCode(ClassCodeVO inVO) throws Exception;
+
+	public void updateClassCode(ClassCodeVO inVO) throws Exception;
 	 
 }

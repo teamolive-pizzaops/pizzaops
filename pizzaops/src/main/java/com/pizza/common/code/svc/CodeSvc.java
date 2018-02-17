@@ -31,5 +31,13 @@ public class CodeSvc {
 		codeMapper.insertClassCode(inVO);
 	}
 
+	public void deleteClassCode(ClassCodeVO inVO) throws Exception {
+		codeMapper.deleteClassCode(inVO);
+	}
+
+	public void updateClassCode(ClassCodeVO inVO) throws Exception {
+		codeMapper.updateClassCode(inVO);
+	}
+
 	
 }
