@@ -29,7 +29,6 @@
 		       LAST_MOD_USER_ID
 		  FROM pizza.COM_CLASS_CODE
 	    WHERE CLASS_CODE_NAME = #{classCodeName}
-	    
     </select>
     
     <select id="selectListClassCodeCount" parameterType="com.pizza.common.code.vo.ClassCodeVO" resultType="com.pizza.common.code.vo.ClassCodeVO">
@@ -59,6 +58,22 @@
 		  ,#{firstCreateUserId}
 		)
     </insert>
+    
+    <delete id="deleteClassCode" parameterType="com.pizza.common.code.vo.ClassCodeVO">
+		DELETE FROM  /*CodeMapper.deleteClassCode*/
+			pizza.COM_CLASS_CODE 
+		WHERE CLASS_CODE_NAME = #{classCodeName}
+    </delete>
+    
+    <update id="updateClassCode" parameterType="com.pizza.common.code.vo.ClassCodeVO">
+		UPDATE  /*CodeMapper.updateClassCode*/
+			pizza.COM_CLASS_CODE 
+		SET 
+		     DESCRIPTION = #{description}
+		    ,LAST_MOD_DATETIME = CURRENT_TIMESTAMP
+		    ,LAST_MOD_USER_ID = #{lastModUserId}
+		WHERE CLASS_CODE_NAME = #{classCodeName}
+    </update>
 
 </mapper>
 
