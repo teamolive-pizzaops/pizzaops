@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+  layout:decorator="mainLayout">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Branch Management</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div layout:fragment="content">
+	
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Branch Management</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Branch Management</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Branch List</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#">Config option 1</a>
+                                </li>
+                                <li><a href="#">Config option 2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                    <div class="table-responsive">
+					<table id="branchTable" class="table table-striped table-bordered table-hover" >
+						<thead>
+							<tr>
+								<th>Branch Id</th>
+								<th>Tree Id</th>
+								<th>Branch Name</th>
+								<th>Description</th>
+								<th>Item Status Code</th>
+								<th>Goal Date</th>
+								<th>Detail</th>
+							</tr>
+						</thead>
+						<!-- tbody 태그 필요 없다. -->
+					</table>
+                    </div>
+                    </div>
+                    
+<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="showCreateBranchModal();">Create</button>                    
+                    
+                    
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Branch Information</h4>
+      </div>
+      <div class="modal-body">
+        <table>
+			<tr>
+			  <td>BranchId</td>
+			  <td id="table-branchid"></td>
+			</tr>
+			<tr>
+			  <td>TreeId</td>
+			  <td><input id="table-treeid" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>BranchName</td>
+			  <td><input id="table-branchname" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Description</td>
+			  <td><input id="table-description" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Item Status Code</td>
+			  <td><input id="table-itemstatuscode" type="text" value=""/></td>
+			</tr>
+			<tr>
+			  <td>Goal Date</td>
+			  <td><input id="table-goaldate" type="text" value=""/></td>
+			</tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" style="display:none" class="btn btn-primary" id="button_updateBranch">Update</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_removeBranch">Delete</button>
+        <button type="button" style="display:none" class="btn btn-primary" data-dismiss="modal" id="button_createBranch">Create</button>
+      </div>
+    </div>
+  </div>
+</div>                    
+                    
+                    
+                    
+                </div>
+            </div>
+            </div>
+</div>
+        
+
+	<!-- datatables -->
+    <script src="js/plugins/dataTables/datatables.min.js"></script>
+    <script src="js/plugins/peity/jquery.peity.min.js"></script>
+
+
+    <!-- Page-Level Scripts -->
+    <script>
+	    var branchTable;
+	    
+	    function showCreateBranchModal() {
+	    	$('#table-branchid').html("AUTO");
+			$('#table-treerid').val('');
+			$('#table-branchname').val('');
+			$('#table-description').val('');
+			$('#table-itemstatuscode').val('');
+			$('#table-goaldate').val('');
+
+			$("#button_createBranch").show();
+	    	$("#button_updateBranch").hide();
+    		$("#button_removeBranch").hide();
+	    }
+	    
+	    $('#button_createBranch').click(function(){
+	    		//validation check
+	    		
+	    		//ajax
+			$.ajax({
+				url: "/branchMgmt/insertBranch.do", 
+				type: "get",
+				data: {
+					treeId				: $('#table-treeid').val(),
+					branchName			: $('#table-branchname').val(),
+					description		: $('#table-description').val(),
+					itemStatusCode	: $('#table-itemstatuscode').val(),
+					goalDate			: $('#table-goaldate').val()
+				},
+		        success:function(result){
+					console.log("success : insert", result);
+					//toast 같은게 필요ㅎㅎ 
+					$('#branchTable').DataTable().ajax.reload();
+		        } 
+			});	    	
+	    	
+	    })
+	    
+	    $('#button_updateBranch').click(function(){
+			$.ajax({
+				url: "/branchMgmt/updateBranch.do",
+				type: "get",
+				data: {
+					branchId			: $('#table-branchid').html(),
+					treeId				: $('#table-treeid').val(),
+					branchName			: $('#table-branchname').val(),
+					description		: $('#table-description').val(),
+					itemStatusCode	: $('#table-itemstatuscode').val(),
+					goalDate			: $('#table-goaldate').val()
+				},
+		        success:function(result){
+					console.log("success : update", result);
+					$('#branchTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })	    
+	    
+	    $('#button_removeBranch').click(function(){
+	    		var param_branchId = $('#table-branchid').html();
+	    		
+			$.ajax({
+				url: "/branchMgmt/removeBranch.do",
+				type: "get",
+				data: {
+					branchId : param_branchId
+				},
+		        success:function(result){
+					console.log("success : remove", result);
+					$('#branchTable').DataTable().ajax.reload();
+		        } 
+			});
+	    })
+	    
+	    function viewBranchDetail(branchId){
+			$.ajax({
+				url: "/branchMgmt/selectOneBranch.do",
+				type: "get",
+				data: {
+					branchId : branchId
+				},
+		        success:function(result){
+					console.log("result", result);
+					$('#table-branchid').html(branchId);
+					$('#table-treeid').val(result.data.treeId);
+					$('#table-branchname').val(result.data.branchName);
+					$('#table-description').val(result.data.description);
+					$('#table-itemstatuscode').val(result.data.itemStatusCode);
+					$('#table-goaldate').val(result.data.goalDate);
+		        } 
+			});
+			
+	    		$("#button_createBranch").hide();
+	    		$("#button_updateBranch").show();
+    			$("#button_removeBranch").show();
+			
+	    }
+	    
+	    function setBranchTable(){
+	    	branchTable = $('#branchTable').dataTable({
+				pageLength: 1,
+				pagingType : "full_numbers",
+				bPaginate: true,
+				bLengthChange: true,
+				lengthMenu : [ [ 1, 3, 5, 10, -1 ], [ 1, 3, 5, 10, "All" ] ],
+				responsive: true,
+				bAutoWidth: false,
+				processing: true,
+				ordering: true,
+				serverSide: true,
+				searching: false,
+		        ajax : {
+		            "url": "/branchMgmt/getBranchList.do",
+		            "type":"POST",
+		            "data": function ( d ) {
+		               // d.repoType = $("#repoType option:selected").val(),
+		               // d.repoName = $("#repoName").val(),
+		            }
+		         },
+				columns : [					//target
+					{data: "branchId"},			//0
+					{data: "treeId"},			//1
+					{data: "branchName"},		//2
+					{data: "description"},	//3
+					{data: "itemStatusCode"},//4
+					{data: "goalDate"},		//5
+					{data: "branchId"}		//6번 컬럼의 파라미터
+				],
+				columnDefs : [
+					{
+		                "targets": 6,
+		                "render": function(data,type,row){
+		                	//return '<button class="btn btn-info btn-xs" onClick="viewTreeDetail('+data+');">'+'DETAIL'+'</button>'
+		                	return '<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onClick="viewBranchDetail('+data+');">'+'DETAIL'+'</button>'
+		                },
+		                className: "text-center",
+		                "orderable": false
+		            },
+		            {
+		                "targets": [0],
+		                "visible": true
+		            }
+		        ],
+		        dom: '<"html5buttons"B>lTfgtip',
+		        buttons: [
+	 	            {extend: 'copy'},
+		            {extend: 'csv'},
+		            {extend: 'excel', title: 'ExampleFile'},
+		            {extend: 'pdf', title: 'ExampleFile'},
+		            {extend: 'print',
+		             customize: function (win){
+		                    $(win.document.body).addClass('white-bg');
+		                    $(win.document.body).css('font-size', '10px');
+		
+		                    $(win.document.body).find('table')
+		                            .addClass('compact')
+		                            .css('font-size', 'inherit');
+		            }
+		            } 
+		        ]
+		
+		    });
+	    }
+	    $(document).ready(function(){
+	    	setBranchTable();
+	    });
+    </script>
+    </div>
+
+</body>
+
+</html>

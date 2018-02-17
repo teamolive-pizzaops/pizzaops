@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.pizza.common.branch.mapper.BranchMapper">
+
+    <select id="getNow" resultType="java.lang.String">
+        SELECT NOW()
+    </select>
+    
+    <select id="selectOneBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+		SELECT /*selectOneBranch*/
+        	   BRANCH_ID,
+		       TREE_ID,
+		       BRANCH_NAME,
+		       DESCRIPTION,
+		       ITEM_STATUS_CODE,
+		       GOAL_DATE
+		  FROM pizza.BRANCH
+		 WHERE BRANCH_ID = #{branchId};
+
+    </select>
+     
+    <select id="removeBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+        DELETE /*selectOneBranch*/
+          FROM pizza.BRANCH
+         WHERE 1=1
+		    AND BRANCH_ID = #{branchId}
+    </select>    
+    
+    <select id="updateBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+		UPDATE pizza.BRANCH
+		   SET TREE_ID = #{treeId},
+		       BRANCH_NAME = #{branchName},
+		       DESCRIPTION = #{description},
+		       ITEM_STATUS_CODE = #{itemStatusCode},
+		       GOAL_DATE = #{goalDate},
+		       LAST_MOD_DATETIME = now(),
+		       LAST_MOD_USER_ID = 1
+		 WHERE 1=1
+		   AND BRANCH_ID = #{branchId};    
+    </select>    
+   
+    
+    <select id="insertBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+    INSERT INTO pizza.BRANCH (
+				  TREE_ID,
+				  BRANCH_NAME,
+				  DESCRIPTION,
+				  ITEM_STATUS_CODE,
+				  GOAL_DATE,
+				  FIRST_CREATE_DATETIME,
+				  FIRST_CREATE_USER_ID,
+		         LAST_MOD_DATETIME,
+		         LAST_MOD_USER_ID
+				  ) 
+    	 VALUES (
+			 	  #{treeId},
+				  #{branchName},
+				  #{description},
+				  #{itemStatusCode},
+				  #{goalDate},
+				  now(),
+				  1,
+				  now(),
+				  1
+				 );	   
+    </select>       
+    
+    <select id="selectBranchList" parameterType="com.pizza.common.branch.vo.BranchVO" resultType="com.pizza.common.branch.vo.BranchVO">
+        SELECT /*branchListMapper.selectBranchList*/
+              BRANCH_ID,
+         	   TREE_ID,
+         	   BRANCH_NAME,
+         	   DESCRIPTION,
+         	   ITEM_STATUS_CODE,
+         	   GOAL_DATE
+		  FROM pizza.BRANCH
+		 WHERE 1=1
+    </select>
+
+    <select id="selectBranchListCount" parameterType="com.pizza.common.branch.vo.BranchVO" resultType="com.pizza.common.branch.vo.BranchVO">
+        SELECT /*branchListMapper.selectBranchListCount*/
+        	   count(*) as total
+		  FROM pizza.BRANCH
+		 WHERE 1=1
+    </select>
+
+</mapper>
+

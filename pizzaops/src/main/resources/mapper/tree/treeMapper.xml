@@ -55,8 +55,8 @@
     	 VALUES (
 			 	  #{userId},
 				  #{treeName},
-				  #{itemStatusCode},
 				  #{description},
+				  #{itemStatusCode},
 				  now(),
 				  #{userId},
 				  now(),
