@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pizza.common.code.svc.CodeSvc;
 import com.pizza.common.code.vo.ClassCodeVO;
+import com.pizza.common.code.vo.CodeVO;
 import com.pizza.common.user.vo.UserVO;
 import com.pizza.common.util.PizzaSessionUtil;
 import com.pizza.common.util.StringUtils;
@@ -38,7 +39,7 @@ public class CodeController {
     }
     
     @RequestMapping(value = "/codeMgmt/selectOneClassCode.do", method=RequestMethod.POST)
-    private ModelAndView selectListClassCode(@RequestBody ClassCodeVO classCodeVO, HttpServletRequest request) throws Exception {
+    private ModelAndView selectOneClassCode(@RequestBody ClassCodeVO classCodeVO, HttpServletRequest request) throws Exception {
 		
 		ModelAndView mv = new ModelAndView("jsonView");
 		
@@ -50,14 +51,14 @@ public class CodeController {
     }
     
     @RequestMapping(value = "/codeMgmt/selectListClassCode.do", method=RequestMethod.POST)
-    private ModelAndView selectOneClassCode(@ModelAttribute ClassCodeVO classCodeVO, HttpServletRequest request) throws Exception {
+    private ModelAndView selectListClassCode(@ModelAttribute ClassCodeVO classCodeVO, HttpServletRequest request) throws Exception {
     	
     	ModelAndView mv = new ModelAndView("jsonView");
     	
     	
-    	List<ClassCodeVO> codeList = codeSvc.selectListClassCode(classCodeVO);
+    	List<ClassCodeVO> classCodeList = codeSvc.selectListClassCode(classCodeVO);
     	
-    	mv.addObject("data", codeList);
+    	mv.addObject("data", classCodeList);
     	
     	return mv;
     }
@@ -118,6 +119,20 @@ public class CodeController {
     	codeSvc.updateClassCode(classCodeVO);
     	
     	return res;
+    }
+    
+    @RequestMapping(value = "/codeMgmt/selectListCode.do", method=RequestMethod.POST)
+    private ModelAndView selectListCode(@ModelAttribute CodeVO codeVO, HttpServletRequest request) {
+    	
+    	System.out.println("1111111111111111111");
+    	System.out.println(codeVO.getClassCodeName());
+    	ModelAndView mv = new ModelAndView("jsonView");
+    	
+    	List<CodeVO> codeList = codeSvc.selectListCode(codeVO);
+    	
+    	mv.addObject("data", codeList);
+    	
+    	return mv;
     }
     
     

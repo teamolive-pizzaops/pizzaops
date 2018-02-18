@@ -74,6 +74,40 @@
 		    ,LAST_MOD_USER_ID = #{lastModUserId}
 		WHERE CLASS_CODE_NAME = #{classCodeName}
     </update>
+    
+   <select id="selectListCode" parameterType="com.pizza.common.code.vo.CodeVO" resultType="com.pizza.common.code.vo.CodeVO">
+        SELECT /*CodeMapper.selectListCode*/
+		      CLASS_CODE_NAME, 
+		      CODE,
+		      CODE_NAME,
+		      SORT_ORDER,
+		      DELETE_YN,
+		      FIRST_CREATE_DATETIME,
+		      FIRST_CREATE_USER_ID,
+		      LAST_MOD_DATETIME,
+		      LAST_MOD_USER_ID 
+		FROM pizza.COM_CODE
+		WHERE DELETE_YN = 'N'
+		  AND CLASS_CODE_NAME = #{classCodeName}
+	 ORDER BY SORT_ORDER asc, CODE asc
+    </select>
+    
+   <select id="selectOneCode" parameterType="com.pizza.common.code.vo.CodeVO" resultType="com.pizza.common.code.vo.CodeVO">
+        SELECT /*CodeMapper.selectOneCode*/
+		      CLASS_CODE_NAME, 
+		      CODE,
+		      CODE_NAME,
+		      DESCRIPTION, 
+		      SORT_ORDER,
+		      DELETE_YN,
+		      FIRST_CREATE_DATETIME,
+		      FIRST_CREATE_USER_ID,
+		      LAST_MOD_DATETIME,
+		      LAST_MOD_USER_ID 
+		FROM pizza.COM_CODE
+		WHERE DELETE_YN = 'N'
+		  AND CLASS_CODE_NAME = #{classCodeName}
+    </select>
 
 </mapper>
 

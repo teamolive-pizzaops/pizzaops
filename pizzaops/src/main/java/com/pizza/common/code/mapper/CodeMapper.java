@@ -3,6 +3,7 @@ package com.pizza.common.code.mapper;
 import java.util.List;
 
 import com.pizza.common.code.vo.ClassCodeVO;
+import com.pizza.common.code.vo.CodeVO;
 
 public interface CodeMapper {
 	
@@ -17,5 +18,7 @@ public interface CodeMapper {
 	 public void deleteClassCode(ClassCodeVO inVO) throws Exception;
 
 	public void updateClassCode(ClassCodeVO inVO) throws Exception;
+
+	public List<CodeVO> selectListCode(CodeVO codeVO);
 	 
 }
