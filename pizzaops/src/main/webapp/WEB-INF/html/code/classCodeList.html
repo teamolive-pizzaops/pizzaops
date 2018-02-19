@@ -117,7 +117,7 @@
          <!-- Add Class Code Popup End -->
          
          <!-- Class Code Detail Popup Start -->
-         <div class="modal inmodal fade" id="classCodeDetailPopup" tabindex="-1" role="dialog"  aria-hidden="true">
+         <div class="modal fade" id="classCodeDetailPopup" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none; z-index: 1050;">
              <div class="modal-dialog modal-lg">
                  <div class="modal-content">
                      <div class="modal-header">
@@ -155,7 +155,7 @@
 	                    </div>
                      </div>
                      <div class="modal-footer">
-                         <button type="button" class="btn btn-white" data-dismiss="modal">CLOSE</button>
+                         <button type="button" class="btn btn-white" onClick="closeClassCodeDetailPopup();">CLOSE</button>
                      </div>
                  </div>
              </div>
@@ -163,7 +163,7 @@
          <!-- Class Code Detail Popup End -->  
             
          <!-- Add Code Popup start --> 
-         <div class="modal inmodal fade" id="addCodePopup" tabindex="-1" role="dialog"  aria-hidden="true">
+         <div class="modal fade" id="addCodePopup" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none; z-index: 1060;">
              <div class="modal-dialog modal-lg">
                  <div class="modal-content">
                      <div class="modal-header">
@@ -419,7 +419,10 @@
 	            	}
 	            }
 	        });
-	    	
+	    }
+	    
+	    function closeClassCodeDetailPopup(){
+	    	$('#classCodeDetailPopup').modal('hide');
 	    }
 	    
 	    /*Com Code Script*/	    
@@ -477,11 +480,39 @@
 	    function deleteCode(classCodeName){
 	    }
 	    
+	    function updateCode(){
+		    $.ajax({
+	            type : "POST",
+	            headers: {
+	                "Content-Type" : "application/json"
+	            },
+	            url : "/codeMgmt/updateCode.do",
+	            data: JSON.stringify({
+					classCodeName : $('#detailClassCodeName').val(),
+					description : $('#detailDescription').val()
+	            }),
+	            error : function(e){
+	                alert(e);
+	            },
+	            success : function(data){
+	            	if(data.code == 200){
+                        classCodeTable.api().ajax.reload();
+	                    toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            timeOut: 4000
+                        };
+                        toastr.success('successfully updated');
+	            	}
+	            }
+	        });
+	    }
+	    
 	    function closeAddCodePopup(){
 	    	$('#addCodeName').val('');
 	    	$('#addCode').val('');
 	    	$('#addSortOrder').val('');
-	    	$('#addCodePopup').modal('toggle');
+	    	$('#addCodePopup').modal('hide');
 	    }
 	    
 	    $(document).ready(function(){

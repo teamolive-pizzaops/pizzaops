@@ -20,5 +20,11 @@ public interface CodeMapper {
 	public void updateClassCode(ClassCodeVO inVO) throws Exception;
 
 	public List<CodeVO> selectListCode(CodeVO codeVO);
+
+	public void deleteCode(CodeVO codeVO);
+
+	public void updateCode(CodeVO codeVO);
+
+	public void insertCode(CodeVO codeVO);
 	 
 }

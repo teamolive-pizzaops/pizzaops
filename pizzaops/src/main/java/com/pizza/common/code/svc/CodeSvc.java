@@ -43,6 +43,18 @@ public class CodeSvc {
 	public List<CodeVO> selectListCode(CodeVO codeVO) {
 		return codeMapper.selectListCode(codeVO);
 	}
+	
+	public void insertCode(CodeVO CodeVO) throws Exception{
+		codeMapper.insertCode(CodeVO);
+	}
+	
+	public void updateCode(CodeVO CodeVO) throws Exception {
+		codeMapper.updateCode(CodeVO);
+	}
+	
+	public void deleteCode(CodeVO CodeVO) throws Exception {
+		codeMapper.deleteCode(CodeVO);
+	}
 
 	
 }

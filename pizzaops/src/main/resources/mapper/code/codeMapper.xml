@@ -92,22 +92,49 @@
 	 ORDER BY SORT_ORDER asc, CODE asc
     </select>
     
-   <select id="selectOneCode" parameterType="com.pizza.common.code.vo.CodeVO" resultType="com.pizza.common.code.vo.CodeVO">
-        SELECT /*CodeMapper.selectOneCode*/
-		      CLASS_CODE_NAME, 
-		      CODE,
-		      CODE_NAME,
-		      DESCRIPTION, 
-		      SORT_ORDER,
-		      DELETE_YN,
-		      FIRST_CREATE_DATETIME,
-		      FIRST_CREATE_USER_ID,
-		      LAST_MOD_DATETIME,
-		      LAST_MOD_USER_ID 
-		FROM pizza.COM_CODE
-		WHERE DELETE_YN = 'N'
-		  AND CLASS_CODE_NAME = #{classCodeName}
-    </select>
+    <insert id="insertCode" parameterType="com.pizza.common.code.vo.CodeVO">
+		INSERT INTO /*CodeMapper.insertCode*/
+			      pizza.COM_CODE(
+			   CLASS_CODE_NAME
+			  ,CODE
+			  ,CODE_NAME
+			  ,SORT_ORDER
+			  ,DELETE_YN
+			  ,FIRST_CREATE_DATETIME
+			  ,FIRST_CREATE_USER_ID
+			  ,LAST_MOD_DATETIME
+			  ,LAST_MOD_USER_ID
+		) VALUES (
+			   #{classCodeName} 
+			  ,#{code}  
+			  ,#{codeName}  
+			  ,#{sortOrder}  
+			  ,'N'
+			  ,CURRENT_TIMESTAMP 
+			  ,#{firstCreateUserId} 
+			  ,CURRENT_TIMESTAMP 
+			  ,#{firstCreateUserId}
+			)
+    </insert>
+    
+    <delete id="deleteCode" parameterType="com.pizza.common.code.vo.CodeVO">
+		DELETE FROM  /*CodeMapper.deleteCode*/
+			pizza.COM_CODE 
+		WHERE CLASS_CODE_NAME = #{classCodeName}
+		  AND CODE = #{code}
+    </delete>
+    
+    <update id="updateCode" parameterType="com.pizza.common.code.vo.CodeVO">
+		UPDATE  /*CodeMapper.updateCode*/
+			pizza.COM_CODE 
+		SET 
+		     CODE_NAME = #{codeName}
+		    , SORT_ORDER = #{sortOrder}
+		    ,LAST_MOD_DATETIME = CURRENT_TIMESTAMP
+		    ,LAST_MOD_USER_ID = #{lastModUserId}
+		WHERE CLASS_CODE_NAME = #{classCodeName}
+		  AND CODE = #{code} 
+    </update>
 
 </mapper>
 
