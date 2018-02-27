@@ -1,12 +1,12 @@
-package com.pizza.common.branch.svc;
+package com.pizza.forest.branch.svc;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pizza.common.branch.mapper.BranchMapper;
-import com.pizza.common.branch.vo.BranchVO;
+import com.pizza.forest.branch.mapper.BranchMapper;
+import com.pizza.forest.branch.vo.BranchVO;
 
 @Service
 public class BranchSvc {

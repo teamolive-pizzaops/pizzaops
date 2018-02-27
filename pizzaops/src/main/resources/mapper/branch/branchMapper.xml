@@ -3,13 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.pizza.common.branch.mapper.BranchMapper">
+<mapper namespace="com.pizza.forest.branch.mapper.BranchMapper">
 
     <select id="getNow" resultType="java.lang.String">
         SELECT NOW()
     </select>
     
-    <select id="selectOneBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="selectOneBranch" resultType="com.pizza.forest.branch.vo.BranchVO">
 		SELECT /*selectOneBranch*/
         	   BRANCH_ID,
 		       TREE_ID,
@@ -22,14 +22,14 @@
 
     </select>
      
-    <select id="removeBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="removeBranch" resultType="com.pizza.forest.branch.vo.BranchVO">
         DELETE /*selectOneBranch*/
           FROM pizza.BRANCH
          WHERE 1=1
 		    AND BRANCH_ID = #{branchId}
     </select>    
     
-    <select id="updateBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="updateBranch" resultType="com.pizza.forest.branch.vo.BranchVO">
 		UPDATE pizza.BRANCH
 		   SET TREE_ID = #{treeId},
 		       BRANCH_NAME = #{branchName},
@@ -43,7 +43,7 @@
     </select>    
    
     
-    <select id="insertBranch" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="insertBranch" resultType="com.pizza.forest.branch.vo.BranchVO">
     INSERT INTO pizza.BRANCH (
 				  TREE_ID,
 				  BRANCH_NAME,
@@ -68,7 +68,7 @@
 				 );	   
     </select>       
     
-    <select id="selectBranchList" parameterType="com.pizza.common.branch.vo.BranchVO" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="selectBranchList" parameterType="com.pizza.forest.branch.vo.BranchVO" resultType="com.pizza.forest.branch.vo.BranchVO">
         SELECT /*branchListMapper.selectBranchList*/
               BRANCH_ID,
          	   TREE_ID,
@@ -80,7 +80,7 @@
 		 WHERE 1=1
     </select>
 
-    <select id="selectBranchListCount" parameterType="com.pizza.common.branch.vo.BranchVO" resultType="com.pizza.common.branch.vo.BranchVO">
+    <select id="selectBranchListCount" parameterType="com.pizza.forest.branch.vo.BranchVO" resultType="com.pizza.forest.branch.vo.BranchVO">
         SELECT /*branchListMapper.selectBranchListCount*/
         	   count(*) as total
 		  FROM pizza.BRANCH

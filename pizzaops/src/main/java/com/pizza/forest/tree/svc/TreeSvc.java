@@ -1,12 +1,12 @@
-package com.pizza.common.tree.svc;
+package com.pizza.forest.tree.svc;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.pizza.common.tree.mapper.TreeMapper;
-import com.pizza.common.tree.vo.TreeVO;
+import com.pizza.forest.tree.mapper.TreeMapper;
+import com.pizza.forest.tree.vo.TreeVO;
 
 @Service
 public class TreeSvc {

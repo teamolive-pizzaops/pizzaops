@@ -3,13 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.pizza.common.tree.mapper.TreeMapper">
+<mapper namespace="com.pizza.forest.tree.mapper.TreeMapper">
 
     <select id="getNow" resultType="java.lang.String">
         SELECT NOW()
     </select>
     
-    <select id="selectOneTree" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="selectOneTree" resultType="com.pizza.forest.tree.vo.TreeVO">
 		SELECT /*selectOneTree*/
         	   TREE_ID,
 		       USER_ID,
@@ -21,14 +21,14 @@
 
     </select>
      
-    <select id="removeTree" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="removeTree" resultType="com.pizza.forest.tree.vo.TreeVO">
         DELETE /*selectOneTree*/
           FROM pizza.TREE
          WHERE 1=1
 		    AND TREE_ID = #{treeId}
     </select>    
     
-    <select id="updateTree" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="updateTree" resultType="com.pizza.forest.tree.vo.TreeVO">
 		UPDATE pizza.TREE
 		   SET USER_ID = #{userId},
 		       TREE_NAME = #{treeName},
@@ -41,7 +41,7 @@
     </select>    
    
     
-    <select id="insertTree" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="insertTree" resultType="com.pizza.forest.tree.vo.TreeVO">
     INSERT INTO pizza.TREE (
 				  USER_ID,
 				  TREE_NAME,
@@ -64,7 +64,7 @@
 				 );	   
     </select>       
     
-    <select id="selectTreeList" parameterType="com.pizza.common.tree.vo.TreeVO" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="selectTreeList" parameterType="com.pizza.forest.tree.vo.TreeVO" resultType="com.pizza.forest.tree.vo.TreeVO">
         SELECT /*treeListMapper.selectTreeList*/
               TREE_ID,
          	   USER_ID,
@@ -75,7 +75,7 @@
 		 WHERE 1=1
     </select>
 
-    <select id="selectTreeListCount" parameterType="com.pizza.common.tree.vo.TreeVO" resultType="com.pizza.common.tree.vo.TreeVO">
+    <select id="selectTreeListCount" parameterType="com.pizza.forest.tree.vo.TreeVO" resultType="com.pizza.forest.tree.vo.TreeVO">
         SELECT /*treeListMapper.selectTreeListCount*/
         	   count(*) as total
 		  FROM pizza.TREE

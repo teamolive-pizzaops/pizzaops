@@ -1,4 +1,4 @@
-package com.pizza.common.tree.controller;
+package com.pizza.forest.tree.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pizza.common.tree.svc.TreeSvc;
-import com.pizza.common.tree.vo.TreeVO;
+import com.pizza.forest.tree.svc.TreeSvc;
+import com.pizza.forest.tree.vo.TreeVO;
 
 @RestController
 public class TreeController {

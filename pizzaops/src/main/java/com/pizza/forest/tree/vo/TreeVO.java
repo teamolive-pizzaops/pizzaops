@@ -1,4 +1,4 @@
-package com.pizza.common.tree.vo;
+package com.pizza.forest.tree.vo;
 
 import com.pizza.common.main.vo.AbstractVO;
 

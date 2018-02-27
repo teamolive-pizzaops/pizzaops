@@ -1,8 +1,8 @@
-package com.pizza.common.tree.mapper;
+package com.pizza.forest.tree.mapper;
 
 import java.util.List;
 
-import com.pizza.common.tree.vo.TreeVO;
+import com.pizza.forest.tree.vo.TreeVO;
 
 public interface TreeMapper {
 	

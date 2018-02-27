@@ -1,4 +1,4 @@
-package com.pizza.common.branch.controller;
+package com.pizza.forest.branch.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pizza.common.branch.svc.BranchSvc;
-import com.pizza.common.branch.vo.BranchVO;
+import com.pizza.forest.branch.svc.BranchSvc;
+import com.pizza.forest.branch.vo.BranchVO;
 
 @RestController
 public class BranchController {

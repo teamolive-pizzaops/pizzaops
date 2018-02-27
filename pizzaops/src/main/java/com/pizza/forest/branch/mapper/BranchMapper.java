@@ -1,8 +1,8 @@
-package com.pizza.common.branch.mapper;
+package com.pizza.forest.branch.mapper;
 
 import java.util.List;
 
-import com.pizza.common.branch.vo.BranchVO;
+import com.pizza.forest.branch.vo.BranchVO;
 
 public interface BranchMapper {
 	
